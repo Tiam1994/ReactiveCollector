@@ -1,13 +1,16 @@
 using Runtime.PlayerLogic.Control;
+using Runtime.PlayerLogic;
 using UnityEngine;
 
 namespace Runtime.EntryPoints
 {
 	public class ExpirienceSceneMainEntryPoint : MonoBehaviour
 	{
+		[SerializeField] private Player _player;
 		[SerializeField] private PlayerController _playerController;
+		[SerializeField] private PlayerSettingsConfig _playerSettingsConfig;
 
-		private InputManager _inputManager;
+		private InputManager _inputManager = new InputManager();
 
 		private void Start()
 		{
@@ -16,10 +19,10 @@ namespace Runtime.EntryPoints
 
 		private void Init()
 		{
-			_inputManager = new InputManager();
+			_player.Init(_playerSettingsConfig);
 			_inputManager.Init();
 
-			_playerController.Init(_inputManager, 5, 8);
+			_playerController.Init(_player, _inputManager);
 		}
 	}
 }

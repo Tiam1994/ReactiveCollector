@@ -8,13 +8,11 @@ namespace Runtime.PlayerLogic.Control
 	{
 		[SerializeField] private PlayerMovementController _playerMovementController;
 
-		[SerializeField] private Player _player;
-
 		private readonly CompositeDisposable _disposable = new();
 
-		public void Init(InputManager inputManager, float moveSpeed, float jumpForce)
+		public void Init(Player player, InputManager inputManager)
 		{
-			_playerMovementController.Init(_player, moveSpeed, jumpForce);
+			_playerMovementController.Init(player);
 
 			inputManager.OnHorizontalMoving.Subscribe(input => _playerMovementController.HorizontalMove(input)).AddTo(_disposable);
 			inputManager.OnVerticalMoving.Subscribe(input => _playerMovementController.VerticalMove(input)).AddTo(_disposable);

@@ -12,11 +12,11 @@ namespace Runtime.PlayerLogic.Control
 		private Vector3 _verticalMovement = Vector3.zero;
 		private Vector3 _direction;
 
-		public void Init(Player player, float moveSpeed, float jumpForce)
+		public void Init(Player player)
 		{
 			_player = player;
-			_moveSpeed = moveSpeed;
-			_jumpForce = jumpForce;
+			_moveSpeed = _player.Settings.Speed;
+			_jumpForce = _player.Settings.JumpForce;
 		}
 
 		public void HorizontalMove(float horizontalInput)
