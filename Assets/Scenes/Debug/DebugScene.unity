@@ -153,7 +153,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerMovementController: {fileID: 1849051070}
-  _player: {fileID: 1238677504}
 --- !u!4 &431178525
 Transform:
   m_ObjectHideFlags: 0
@@ -722,7 +721,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2928636bec4afdb4fb190368d4eb41ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _player: {fileID: 1238677504}
   _playerController: {fileID: 431178524}
+  _playerSettingsConfig: {fileID: 11400000, guid: 3b0517ec7692faa439eba13fc07be7d1, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
