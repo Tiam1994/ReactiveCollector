@@ -6,15 +6,17 @@ namespace Runtime.PlayerLogic.Control
 	{
 		private Player _player;
 		private float _moveSpeed;
+		private float _jumpForce;
 
 		private Vector3 _horizontalMovement = Vector3.zero;
 		private Vector3 _verticalMovement = Vector3.zero;
 		private Vector3 _direction;
 
-		public void Init(Player player, float moveSpeed)
+		public void Init(Player player, float moveSpeed, float jumpForce)
 		{
 			_player = player;
 			_moveSpeed = moveSpeed;
+			_jumpForce = jumpForce;
 		}
 
 		public void HorizontalMove(float horizontalInput)
@@ -41,6 +43,19 @@ namespace Runtime.PlayerLogic.Control
 			_direction = movement.normalized;
 			_direction.y = 0f;
 			_player.transform.LookAt(_player.transform.position + _direction);
+		}
+
+		public void Jump()
+		{
+			if (IsPlayerGrounded())
+			{
+				_player.GetComponent<Rigidbody>().AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
+			}
+		}
+
+		private bool IsPlayerGrounded()
+		{
+			return Physics.Raycast(_player.transform.position, Vector3.down, 0.1f);
 		}
 	}
 }

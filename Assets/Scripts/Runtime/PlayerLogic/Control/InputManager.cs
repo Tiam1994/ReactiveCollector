@@ -8,10 +8,12 @@ namespace Runtime.PlayerLogic.Control
 	{
 		private readonly ISubject<float> _onHorizontalMoving = new Subject<float>();
 		private readonly ISubject<float> _onVerticalMoving = new Subject<float>();
+		private readonly ISubject<Unit> _onJumping = new Subject<Unit>();
 		private readonly CompositeDisposable _disposable = new();
 
 		public IObservable<float> OnHorizontalMoving => _onHorizontalMoving; 
 		public IObservable<float> OnVerticalMoving => _onVerticalMoving;
+		public IObservable<Unit> OnJumping => _onJumping;
 
 		public void Init()
 		{
@@ -20,11 +22,11 @@ namespace Runtime.PlayerLogic.Control
 
 		private void GetInput()
 		{
-			Observable.EveryUpdate().Select(_ => (GetHorizontalInput(), GetVerticalInput()))
-									.Where(input => input.Item1 != 0 || input.Item2 != 0)
+			Observable.EveryUpdate().Select(_ => (GetHorizontalInput(), GetVerticalInput(), GetJumpingInput()))
+									.Where(input => input.Item1 != 0 || input.Item2 != 0 || input.Item3 != 0)
 									.Subscribe(input =>
 									{
-										HandleInput(input.Item1, input.Item2);
+										HandleInput(input.Item1, input.Item2, input.Item3);
 									}).AddTo(_disposable);
 		}
 
@@ -54,7 +56,17 @@ namespace Runtime.PlayerLogic.Control
 			return 0f;
 		}
 
-		private void HandleInput(float horizontalInput, float verticalInput)
+		private float GetJumpingInput()
+		{
+			if (Input.GetKey(KeyCode.Space))
+			{
+				return 1f;
+			}
+
+			return 0f;
+		}
+
+		private void HandleInput(float horizontalInput, float verticalInput, float jumpInput)
 		{
 			if (horizontalInput != 0)
 			{
@@ -64,6 +76,11 @@ namespace Runtime.PlayerLogic.Control
 			if (verticalInput != 0)
 			{
 				_onVerticalMoving.OnNext(verticalInput);
+			}
+
+			if (jumpInput != 0)
+			{
+				_onJumping.OnNext(Unit.Default);
 			}
 		}
 

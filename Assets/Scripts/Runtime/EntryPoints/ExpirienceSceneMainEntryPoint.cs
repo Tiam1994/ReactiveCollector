@@ -19,7 +19,7 @@ namespace Runtime.EntryPoints
 			_inputManager = new InputManager();
 			_inputManager.Init();
 
-			_playerController.Init(_inputManager, 5);
+			_playerController.Init(_inputManager, 5, 8);
 		}
 	}
 }
